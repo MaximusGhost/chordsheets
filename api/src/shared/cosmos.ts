@@ -1,5 +1,5 @@
 import { CosmosClient, Container } from '@azure/cosmos';
-import type { SongDocument } from './types.js';
+import type { SongDocument } from './types';
 
 let container: Container | null = null;
 

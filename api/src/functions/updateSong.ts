@@ -1,8 +1,8 @@
 import { app, HttpRequest, HttpResponseInit } from '@azure/functions';
 import Busboy from 'busboy';
 import { Readable } from 'stream';
-import { getSongById, updateSongDocument } from '../shared/cosmos.js';
-import { uploadPdf, deletePdf } from '../shared/blob.js';
+import { getSongById, updateSongDocument } from '../shared/cosmos';
+import { uploadPdf, deletePdf } from '../shared/blob';
 
 interface ParsedForm {
   fields: Record<string, string>;

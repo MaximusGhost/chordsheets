@@ -1,5 +1,5 @@
 import { app, HttpRequest, HttpResponseInit } from '@azure/functions';
-import { getAllTags } from '../shared/cosmos.js';
+import { getAllTags } from '../shared/cosmos';
 
 app.http('tags', {
   methods: ['GET'],

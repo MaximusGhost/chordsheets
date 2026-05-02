@@ -1,5 +1,5 @@
 import { app, HttpRequest, HttpResponseInit } from '@azure/functions';
-import { querySongs } from '../shared/cosmos.js';
+import { querySongs } from '../shared/cosmos';
 
 app.http('songs', {
   methods: ['GET'],

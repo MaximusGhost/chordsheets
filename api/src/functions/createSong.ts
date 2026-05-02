@@ -2,9 +2,9 @@ import { app, HttpRequest, HttpResponseInit } from '@azure/functions';
 import { v4 as uuidv4 } from 'uuid';
 import Busboy from 'busboy';
 import { Readable } from 'stream';
-import { createSongDocument } from '../shared/cosmos.js';
-import { uploadPdf } from '../shared/blob.js';
-import type { SongDocument } from '../shared/types.js';
+import { createSongDocument } from '../shared/cosmos';
+import { uploadPdf } from '../shared/blob';
+import type { SongDocument } from '../shared/types';
 
 interface ParsedForm {
   fields: Record<string, string>;

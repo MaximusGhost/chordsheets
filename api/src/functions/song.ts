@@ -1,6 +1,6 @@
 import { app, HttpRequest, HttpResponseInit } from '@azure/functions';
-import { getSongById } from '../shared/cosmos.js';
-import { generateSasUrl } from '../shared/blob.js';
+import { getSongById } from '../shared/cosmos';
+import { generateSasUrl } from '../shared/blob';
 
 app.http('song', {
   methods: ['GET'],

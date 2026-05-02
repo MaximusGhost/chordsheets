@@ -1,6 +1,6 @@
 import { app, HttpRequest, HttpResponseInit } from '@azure/functions';
-import { getSongById, deleteSongDocument } from '../shared/cosmos.js';
-import { deletePdf } from '../shared/blob.js';
+import { getSongById, deleteSongDocument } from '../shared/cosmos';
+import { deletePdf } from '../shared/blob';
 
 app.http('deleteSong', {
   methods: ['DELETE'],
