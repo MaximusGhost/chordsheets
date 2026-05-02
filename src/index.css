@@ -76,13 +76,3 @@
   display: none !important;
 }
 
-/* Seamless PDF page rendering — clips top/bottom margins for continuous scrolling */
-.pdf-page-seamless {
-  overflow: hidden;
-  margin-top: -24px;
-  line-height: 0;
-}
-
-.pdf-page-seamless:first-child {
-  margin-top: 0;
-}

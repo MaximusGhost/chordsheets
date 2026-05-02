@@ -7,6 +7,12 @@ interface PDFViewerProps {
   url: string;
 }
 
+// Google Docs default margin: 1 inch = 72 PDF points
+// Letter page width: 612 PDF points
+// Margin as fraction of page width: 72/612 ≈ 0.1176
+// Between two pages we need to clip: bottom margin + top margin = 2 * 0.1176 ≈ 0.235
+const MARGIN_FRACTION = 72 / 612; // 1 inch margin / letter width
+
 export function PDFViewer({ url }: PDFViewerProps) {
   const [numPages, setNumPages] = useState<number>(0);
   const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -14,6 +20,10 @@ export function PDFViewer({ url }: PDFViewerProps) {
   function onDocumentLoadSuccess({ numPages: total }: { numPages: number }) {
     setNumPages(total);
   }
+
+  // Calculate overlap in pixels based on rendered width
+  // Each page has top + bottom margins, so between pages we overlap both
+  const pageOverlap = Math.round(containerWidth * MARGIN_FRACTION * 2);
 
   return (
     <div
@@ -37,7 +47,13 @@ export function PDFViewer({ url }: PDFViewerProps) {
         }
       >
         {Array.from(new Array(numPages), (_, index) => (
-          <div key={`page_${index + 1}`} className="pdf-page-seamless">
+          <div
+            key={`page_${index + 1}`}
+            className="overflow-hidden leading-none"
+            style={{
+              marginTop: index > 0 ? `-${pageOverlap}px` : undefined,
+            }}
+          >
             <Page
               pageNumber={index + 1}
               width={containerWidth || undefined}
