@@ -15,7 +15,7 @@
 
   /* Safe area padding for notched devices */
   .safe-top {
-    padding-top: env(safe-area-inset-top, 0px);
+    padding-top: calc(env(safe-area-inset-top, 20px) + 1.5rem);
   }
 
   .safe-bottom {

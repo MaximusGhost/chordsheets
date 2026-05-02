@@ -86,7 +86,7 @@ export function HomePage() {
   };
 
   return (
-    <div className="px-4 pt-6 safe-top max-w-lg mx-auto">
+    <div className="px-4 safe-top max-w-lg mx-auto">
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-slate-100 flex items-center gap-2">

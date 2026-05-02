@@ -29,7 +29,7 @@ export function SongPage() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-950">
       {/* Header */}
-      <header className="bg-slate-800 border-b border-slate-700 px-4 py-3 safe-top flex items-center gap-3 relative z-10">
+      <header className="bg-slate-800 border-b border-slate-700 px-4 pb-3 safe-top flex items-center gap-3 relative z-10">
         <button
           onClick={() => navigate(-1)}
           className="text-slate-400 hover:text-slate-200 flex items-center gap-1 shrink-0"
