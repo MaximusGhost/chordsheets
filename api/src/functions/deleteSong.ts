@@ -1,3 +1,4 @@
+import '../shared/init';
 import { app, HttpRequest, HttpResponseInit } from '@azure/functions';
 import { getSongById, deleteSongDocument } from '../shared/cosmos';
 import { deletePdf } from '../shared/blob';

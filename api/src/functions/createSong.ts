@@ -1,3 +1,4 @@
+import '../shared/init';
 import { app, HttpRequest, HttpResponseInit } from '@azure/functions';
 import { randomUUID } from 'crypto';
 import Busboy from 'busboy';
