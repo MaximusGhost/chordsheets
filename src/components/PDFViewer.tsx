@@ -37,14 +37,14 @@ export function PDFViewer({ url }: PDFViewerProps) {
         }
       >
         {Array.from(new Array(numPages), (_, index) => (
-          <Page
-            key={`page_${index + 1}`}
-            pageNumber={index + 1}
-            width={containerWidth || undefined}
-            renderTextLayer={false}
-            renderAnnotationLayer={false}
-            className="mb-2"
-          />
+          <div key={`page_${index + 1}`} className="pdf-page-seamless">
+            <Page
+              pageNumber={index + 1}
+              width={containerWidth || undefined}
+              renderTextLayer={false}
+              renderAnnotationLayer={false}
+            />
+          </div>
         ))}
       </Document>
     </div>
