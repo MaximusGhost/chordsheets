@@ -1,21 +1,11 @@
-import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PDFViewer } from '../components/PDFViewer';
-import { EditSongModal } from '../components/EditSongModal';
-import { ConfirmDialog } from '../components/ConfirmDialog';
 import { useSong } from '../hooks/useSong';
-import { useTags } from '../hooks/useTags';
-import { updateSong, deleteSong } from '../services/api';
 
 export function SongPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { song, loading, error, refresh } = useSong(id);
-  const { tags } = useTags();
-  const [showEdit, setShowEdit] = useState(false);
-  const [showDelete, setShowDelete] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
-  const [saving, setSaving] = useState(false);
+  const { song, loading, error } = useSong(id);
 
   if (loading) {
     return (
@@ -36,35 +26,13 @@ export function SongPage() {
     );
   }
 
-  const handleSave = async (formData: FormData) => {
-    setSaving(true);
-    try {
-      await updateSong(song.id, formData);
-      setShowEdit(false);
-      refresh();
-    } catch {
-      // Error is handled by the API client
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleDelete = async () => {
-    try {
-      await deleteSong(song.id);
-      navigate('/browse', { replace: true });
-    } catch {
-      // Error handling
-    }
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-slate-950">
       {/* Header */}
-      <header className="bg-slate-800 border-b border-slate-700 px-4 py-3 flex items-center justify-between relative z-10">
+      <header className="bg-slate-800 border-b border-slate-700 px-4 py-3 safe-top flex items-center gap-3 relative z-10">
         <button
           onClick={() => navigate(-1)}
-          className="text-slate-400 hover:text-slate-200 flex items-center gap-1"
+          className="text-slate-400 hover:text-slate-200 flex items-center gap-1 shrink-0"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -72,45 +40,12 @@ export function SongPage() {
           <span className="text-sm">Back</span>
         </button>
 
-        <h1 className="text-sm font-medium text-slate-200 truncate mx-4 flex-1 text-center">
+        <h1 className="text-sm font-medium text-slate-200 truncate flex-1 text-center">
           {song.title}
         </h1>
 
-        <div className="relative">
-          <button
-            onClick={() => setShowMenu(!showMenu)}
-            className="text-slate-400 hover:text-slate-200 p-1"
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <circle cx="12" cy="5" r="2" />
-              <circle cx="12" cy="12" r="2" />
-              <circle cx="12" cy="19" r="2" />
-            </svg>
-          </button>
-
-          {showMenu && (
-            <div className="absolute right-0 top-full mt-1 bg-slate-700 border border-slate-600 rounded-xl shadow-lg overflow-hidden w-40 z-20">
-              <button
-                onClick={() => {
-                  setShowMenu(false);
-                  setShowEdit(true);
-                }}
-                className="w-full text-left px-4 py-3 text-slate-200 hover:bg-slate-600"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => {
-                  setShowMenu(false);
-                  setShowDelete(true);
-                }}
-                className="w-full text-left px-4 py-3 text-red-400 hover:bg-slate-600"
-              >
-                Delete
-              </button>
-            </div>
-          )}
-        </div>
+        {/* Spacer to balance the back button */}
+        <div className="w-12 shrink-0" />
       </header>
 
       {/* Song info bar */}
@@ -128,33 +63,6 @@ export function SongPage() {
       <div className="flex-1">
         <PDFViewer url={song.pdfUrl} />
       </div>
-
-      {/* Edit Modal */}
-      <EditSongModal
-        open={showEdit}
-        song={song}
-        existingTags={tags}
-        onSave={handleSave}
-        onClose={() => setShowEdit(false)}
-        saving={saving}
-      />
-
-      {/* Delete Confirm */}
-      <ConfirmDialog
-        open={showDelete}
-        title="Delete Song"
-        message={`Are you sure you want to delete "${song.title}"? This cannot be undone.`}
-        onConfirm={handleDelete}
-        onCancel={() => setShowDelete(false)}
-      />
-
-      {/* Click outside menu to close */}
-      {showMenu && (
-        <div
-          className="fixed inset-0 z-0"
-          onClick={() => setShowMenu(false)}
-        />
-      )}
     </div>
   );
 }

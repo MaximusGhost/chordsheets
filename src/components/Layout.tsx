@@ -8,14 +8,14 @@ export function Layout() {
         <Outlet />
       </main>
 
-      {/* Bottom navigation */}
+      {/* Bottom navigation — 2 tabs: Home + Add */}
       <nav className="fixed bottom-0 inset-x-0 bg-slate-800 border-t border-slate-700 safe-bottom z-40">
         <div className="flex justify-around items-center h-16 max-w-lg mx-auto">
           <NavLink
             to="/"
             end
             className={({ isActive }) =>
-              `flex flex-col items-center gap-1 px-4 py-2 ${
+              `flex flex-col items-center gap-1 px-6 py-2 ${
                 isActive ? 'text-blue-400' : 'text-slate-400'
               }`
             }
@@ -27,23 +27,9 @@ export function Layout() {
           </NavLink>
 
           <NavLink
-            to="/browse"
-            className={({ isActive }) =>
-              `flex flex-col items-center gap-1 px-4 py-2 ${
-                isActive ? 'text-blue-400' : 'text-slate-400'
-              }`
-            }
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-            <span className="text-xs font-medium">Browse</span>
-          </NavLink>
-
-          <NavLink
             to="/add"
             className={({ isActive }) =>
-              `flex flex-col items-center gap-1 px-4 py-2 ${
+              `flex flex-col items-center gap-1 px-6 py-2 ${
                 isActive ? 'text-blue-400' : 'text-slate-400'
               }`
             }

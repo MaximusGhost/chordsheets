@@ -45,7 +45,7 @@ export function UploadPage() {
 
   if (success) {
     return (
-      <div className="px-4 pt-6 max-w-lg mx-auto">
+      <div className="px-4 pt-6 safe-top max-w-lg mx-auto">
         <div className="text-center py-16">
           <div className="text-6xl mb-4">✅</div>
           <h2 className="text-xl font-semibold text-slate-100 mb-2">Song Uploaded!</h2>
@@ -54,7 +54,7 @@ export function UploadPage() {
             <button onClick={resetForm} className="btn-primary">
               Add Another
             </button>
-            <button onClick={() => navigate('/browse')} className="btn-secondary">
+            <button onClick={() => navigate('/')} className="btn-secondary">
               View Library
             </button>
           </div>
@@ -64,7 +64,7 @@ export function UploadPage() {
   }
 
   return (
-    <div className="px-4 pt-6 pb-8 max-w-lg mx-auto">
+    <div className="px-4 pt-6 pb-8 safe-top max-w-lg mx-auto">
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-xl font-bold text-slate-100">Add Song</h1>

@@ -8,9 +8,11 @@ interface SongListProps {
   error: string | null;
   hasMore: boolean;
   onLoadMore: () => void;
+  onEdit?: (song: SongSummary) => void;
+  onDelete?: (song: SongSummary) => void;
 }
 
-export function SongList({ songs, loading, error, hasMore, onLoadMore }: SongListProps) {
+export function SongList({ songs, loading, error, hasMore, onLoadMore, onEdit, onDelete }: SongListProps) {
   if (error) {
     return (
       <div className="text-center py-12">
@@ -27,7 +29,7 @@ export function SongList({ songs, loading, error, hasMore, onLoadMore }: SongLis
     <div>
       <div className="grid gap-3">
         {songs.map((song) => (
-          <SongCard key={song.id} song={song} />
+          <SongCard key={song.id} song={song} onEdit={onEdit} onDelete={onDelete} />
         ))}
       </div>
 
