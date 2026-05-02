@@ -9,10 +9,12 @@ interface PDFViewerProps {
 
 // Google Docs default margin: 1 inch = 72 PDF points
 // Letter page dimensions: 612 × 792 PDF points
-// Margin as fraction of page HEIGHT for clip-path: 72/792 ≈ 9.09%
-// Margin in pixels = containerWidth × 72/612 (used to collapse layout space)
-const MARGIN_WIDTH_FRACTION = 72 / 612;
-const CLIP_PCT = ((72 / 792) * 100).toFixed(2); // ≈ "9.09"
+// Rendered page height = containerWidth × (792 / 612)
+// Margin in pixels = containerWidth × (72 / 612)
+// Visible content height = containerWidth × ((792 - 144) / 612)  [remove top + bottom margins]
+const PAGE_W = 612;
+const PAGE_H = 792;
+const MARGIN_PT = 72;
 
 export function PDFViewer({ url }: PDFViewerProps) {
   const [numPages, setNumPages] = useState<number>(0);
@@ -22,8 +24,9 @@ export function PDFViewer({ url }: PDFViewerProps) {
     setNumPages(total);
   }
 
-  // Margin in rendered pixels — used for negative margin to collapse clipped space
-  const marginPx = Math.round(containerWidth * MARGIN_WIDTH_FRACTION);
+  const scale = containerWidth / PAGE_W;
+  const marginPx = Math.round(MARGIN_PT * scale);
+  const contentHeight = Math.round((PAGE_H - 2 * MARGIN_PT) * scale);
 
   return (
     <div
@@ -49,19 +52,19 @@ export function PDFViewer({ url }: PDFViewerProps) {
         {Array.from(new Array(numPages), (_, index) => (
           <div
             key={`page_${index + 1}`}
-            className="leading-none"
             style={{
-              clipPath: `inset(${CLIP_PCT}% 0)`,
-              marginTop: `-${marginPx}px`,
-              marginBottom: `-${marginPx}px`,
+              height: `${contentHeight}px`,
+              overflow: 'hidden',
             }}
           >
-            <Page
-              pageNumber={index + 1}
-              width={containerWidth || undefined}
-              renderTextLayer={false}
-              renderAnnotationLayer={false}
-            />
+            <div style={{ marginTop: `-${marginPx}px` }}>
+              <Page
+                pageNumber={index + 1}
+                width={containerWidth || undefined}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+              />
+            </div>
           </div>
         ))}
       </Document>
