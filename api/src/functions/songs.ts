@@ -30,11 +30,12 @@ app.http('songs', {
         status: 200,
         jsonBody: { songs: summaries, total, limit, offset },
       };
-    } catch (err) {
-      console.error('Error fetching songs:', err);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      console.error('Error fetching songs:', errorMessage, err);
       return {
         status: 500,
-        jsonBody: { error: 'Failed to fetch songs' },
+        jsonBody: { error: 'Failed to fetch songs', detail: errorMessage },
       };
     }
   },

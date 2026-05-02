@@ -115,11 +115,12 @@ app.http('createSong', {
         status: 201,
         jsonBody: { id, title, message: 'Song uploaded successfully' },
       };
-    } catch (err) {
-      console.error('Error creating song:', err);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      console.error('Error creating song:', errorMessage, err);
       return {
         status: 500,
-        jsonBody: { error: 'Failed to upload song' },
+        jsonBody: { error: 'Failed to upload song', detail: errorMessage },
       };
     }
   },

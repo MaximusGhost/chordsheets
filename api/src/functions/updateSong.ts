@@ -98,11 +98,12 @@ app.http('updateSong', {
         status: 200,
         jsonBody: { id, message: 'Song updated successfully' },
       };
-    } catch (err) {
-      console.error('Error updating song:', err);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      console.error('Error updating song:', errorMessage, err);
       return {
         status: 500,
-        jsonBody: { error: 'Failed to update song' },
+        jsonBody: { error: 'Failed to update song', detail: errorMessage },
       };
     }
   },

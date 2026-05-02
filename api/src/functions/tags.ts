@@ -12,11 +12,12 @@ app.http('tags', {
         status: 200,
         jsonBody: { tags },
       };
-    } catch (err) {
-      console.error('Error fetching tags:', err);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      console.error('Error fetching tags:', errorMessage, err);
       return {
         status: 500,
-        jsonBody: { error: 'Failed to fetch tags' },
+        jsonBody: { error: 'Failed to fetch tags', detail: errorMessage },
       };
     }
   },

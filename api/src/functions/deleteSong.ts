@@ -28,11 +28,12 @@ app.http('deleteSong', {
         status: 200,
         jsonBody: { message: 'Song deleted successfully' },
       };
-    } catch (err) {
-      console.error('Error deleting song:', err);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      console.error('Error deleting song:', errorMessage, err);
       return {
         status: 500,
-        jsonBody: { error: 'Failed to delete song' },
+        jsonBody: { error: 'Failed to delete song', detail: errorMessage },
       };
     }
   },

@@ -25,11 +25,12 @@ app.http('song', {
         status: 200,
         jsonBody: { ...song, pdfUrl },
       };
-    } catch (err) {
-      console.error('Error fetching song:', err);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      console.error('Error fetching song:', errorMessage, err);
       return {
         status: 500,
-        jsonBody: { error: 'Failed to fetch song' },
+        jsonBody: { error: 'Failed to fetch song', detail: errorMessage },
       };
     }
   },
