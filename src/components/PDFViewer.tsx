@@ -8,10 +8,11 @@ interface PDFViewerProps {
 }
 
 // Google Docs default margin: 1 inch = 72 PDF points
-// Letter page width: 612 PDF points
-// Margin as fraction of page width: 72/612 ≈ 0.1176
-// Between two pages we need to clip: bottom margin + top margin = 2 * 0.1176 ≈ 0.235
-const MARGIN_FRACTION = 72 / 612; // 1 inch margin / letter width
+// Letter page dimensions: 612 × 792 PDF points
+// Margin as fraction of page HEIGHT for clip-path: 72/792 ≈ 9.09%
+// Margin in pixels = containerWidth × 72/612 (used to collapse layout space)
+const MARGIN_WIDTH_FRACTION = 72 / 612;
+const CLIP_PCT = ((72 / 792) * 100).toFixed(2); // ≈ "9.09"
 
 export function PDFViewer({ url }: PDFViewerProps) {
   const [numPages, setNumPages] = useState<number>(0);
@@ -21,9 +22,8 @@ export function PDFViewer({ url }: PDFViewerProps) {
     setNumPages(total);
   }
 
-  // Calculate overlap in pixels based on rendered width
-  // Each page has top + bottom margins, so between pages we overlap both
-  const pageOverlap = Math.round(containerWidth * MARGIN_FRACTION * 2);
+  // Margin in rendered pixels — used for negative margin to collapse clipped space
+  const marginPx = Math.round(containerWidth * MARGIN_WIDTH_FRACTION);
 
   return (
     <div
@@ -49,9 +49,11 @@ export function PDFViewer({ url }: PDFViewerProps) {
         {Array.from(new Array(numPages), (_, index) => (
           <div
             key={`page_${index + 1}`}
-            className="overflow-hidden leading-none"
+            className="leading-none"
             style={{
-              marginTop: index > 0 ? `-${pageOverlap}px` : undefined,
+              clipPath: `inset(${CLIP_PCT}% 0)`,
+              marginTop: `-${marginPx}px`,
+              marginBottom: `-${marginPx}px`,
             }}
           >
             <Page
