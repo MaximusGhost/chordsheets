@@ -1,5 +1,5 @@
 import { app, HttpRequest, HttpResponseInit } from '@azure/functions';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import Busboy from 'busboy';
 import { Readable } from 'stream';
 import { createSongDocument } from '../shared/cosmos';
@@ -88,7 +88,7 @@ app.http('createSong', {
         };
       }
 
-      const id = uuidv4();
+      const id = randomUUID();
       const pdfBlobName = `${id}.pdf`;
       const now = new Date().toISOString();
 

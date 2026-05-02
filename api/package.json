@@ -10,13 +10,11 @@
     "@azure/cosmos": "^4.2.0",
     "@azure/functions": "^4.6.0",
     "@azure/storage-blob": "^12.26.0",
-    "busboy": "^1.6.0",
-    "uuid": "^11.0.3"
+    "busboy": "^1.6.0"
   },
   "devDependencies": {
     "@types/busboy": "^1.5.4",
     "@types/node": "^20.11.0",
-    "@types/uuid": "^10.0.0",
     "typescript": "^5.7.2"
   }
 }
